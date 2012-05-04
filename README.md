@@ -1,4 +1,4 @@
 git-flattr
 ==========
 
-Easily Flattr github repositories from the command line
+This is a gem that makes it easy to Flattr GitHub repositories from the command line. It's still in early development.
