@@ -41,12 +41,12 @@ class Git
     def github_url
       origin = config 'remote.origin.url'
       if @github_url.nil?
-        if origin.match %r{^https://[a-z0-9\-_]+@github\.com}
-          match = origin.match(%r{^https://[a-z0-9\-_]+@github\.com/([a-z0-9\-_]+)/([a-z0-9\-_]+)\.git$})
+        if origin.match %r{^https://[a-zA-Z0-9\-_]+@github\.com}
+          match = origin.match(%r{^https://[a-zA-Z0-9\-_]+@github\.com/([a-zA-Z0-9\-_]+)/([a-zA-Z0-9\-_]+)\.git$})
         elsif origin.match %r{^git@github.com:}
-          match = origin.match(%r{^git@github\.com:([a-z0-9\-_]+)/([a-z0-9\-_]+)\.git$})
+          match = origin.match(%r{^git@github\.com:([a-zA-Z0-9\-_]+)/([a-zA-Z0-9\-_]+)\.git$})
         elsif origin.match %r{^https://github\.com/}
-          match = origin.match(%r{^https://github\.com/([a-z0-9\-_]+)/([a-z0-9\-_]+)\.git$})
+          match = origin.match(%r{^https://github\.com/([a-zA-Z0-9\-_]+)/([a-zA-Z0-9\-_]+)\.git$})
         end
         if match.nil?
           error "Parsing GitHub origin."
