@@ -23,6 +23,11 @@ def command cmd, opts = []
   `#{git_cmd}`.chomp
 end
 
+def escape(s)
+  escaped = s.to_s.gsub('\'', '\'\\\'\'')
+  %Q{"#{escaped}"}
+end
+
 def config name
   command('config', ['--get', name])
 end
