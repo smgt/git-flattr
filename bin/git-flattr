@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+options = {
+  :git_dir => "#{Dir.pwd}/.git",
+  :git_config => "#{Dir.pwd}/.git/config"
+}
+
+puts ENV['GIT_DIR']
+
+unless File.exists?(options[:git_dir])
+  puts "Don't seem to be a git repository"
+  exit 1
+end
+
+unless File.exists?(options[:git_config])
+  puts "Git .config file not found"
+  exit 1
+end
+
+def command cmd, opts = []
+  opts = [opts].flatten.map {|s| escape(s) }.join(' ')
+  git_cmd = "git #{cmd} #{opts} 2>&1"
+  `#{git_cmd}`.chomp
+end
+
+def config name
+  command('config', ['--get', name])
+end
+
+x = config 'remote.origin.url'
+puts x
+
+#unless git_config.match(/github\.com/)
+#  puts "This git repo doesn't seem to be a GitHub repository"
+#  exit 1
+#end
+
+
+
