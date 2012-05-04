@@ -106,8 +106,8 @@ begin
   puts "Flattred #{Git.github_url} (#{thing.link})!"
   exit 0
 
-rescue Flattr::Error::Unauthorized
-  error "You are unauthorized to access the resource on Flattr."
+rescue Flattr::Error::Unauthorized => e
+  error e.message
   exit 1
 rescue Flattr::Error::Forbidden => e
   error e.message
