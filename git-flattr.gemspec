@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name                            = 'git-flattr'
-  s.version                         = '0.0.1'
+  s.version                         = '0.0.2'
   s.authors                         = ['Simon Gate']
   s.email                           = ['simon@smgt.me']
   s.summary                         = %q{Flattr GitHub repositories from the cli}
