@@ -13,6 +13,7 @@ default_command :help
 
 
 
+
 def error message
   puts "Error: #{message}"
 end
@@ -62,21 +63,14 @@ class Git
       end
       return @github_url
     end
-  end
-end
 
+    def valid?
 
-command :repo do |c|
+      git_opts = {
+        :dir    => "#{Dir.pwd}/.git",
+        :config => "#{Dir.pwd}/.git/config"
+      }
 
-  git_opts = {
-    :dir    => "#{Dir.pwd}/.git",
-    :config => "#{Dir.pwd}/.git/config"
-  }
-
-  c.syntax = "git flattr repo"
-  c.description = "Flattr the repository"
-  c.action do |args, options|
-    begin
       unless File.exists?(git_opts[:dir])
         error "Don't seem to be a git repository"
         exit 1
@@ -91,26 +85,52 @@ command :repo do |c|
         error "Not a GitHub repository"
         exit 1
       end
+    end
+  end
+end
 
-      if Git.config('flattr.token') == ""
-        begin
-          Launchy.open("https://git-flattr.herokuapp.com/")
-          token = ask("Token: ")
-        rescue Exception => e
-          puts e.message
-          puts "Seems like you are missing a Flattr access token."
-          puts "Browse to http://git-flattr.herokuapp.com and follow the instructions"
-          token = ask("Token: ")
-        end
-        if token.nil?
-          error "Invalid access token"
-          exit 1
-        end
-        Git.set_config "flattr.token", token.chomp
+module Auth
+  class <<self
+    def is_authed?
+      Git.config('flattr.token') != ""
+    end
+
+    def do!
+      begin
+        Launchy.open("https://git-flattr.herokuapp.com/")
+        token = ask("Token: ")
+      rescue Exception => e
+        puts e.message
+        puts "Seems like you are missing a Flattr access token."
+        puts "Browse to http://git-flattr.herokuapp.com and follow the instructions"
+        token = ask("Token: ")
+      end
+      if token.nil?
+        error "Invalid access token"
+        exit 1
       end
 
-      Flattr.configure do |config|
-        config.access_token = Git.config 'flattr.token'
+      Git.set_config "flattr.token", token.chomp
+    end
+  end
+end
+
+Flattr.configure do |config|
+  config.access_token = Git.config 'flattr.token'
+end
+
+command :repo do |c|
+
+
+  c.syntax = "git flattr repo"
+  c.description = "Flattr the repository"
+  c.action do |args, options|
+    begin
+
+      Git.valid?
+
+      if !Auth.is_authed?
+        Auth.do!
       end
 
       flattr = Flattr.new
@@ -133,6 +153,6 @@ command :commit do |c|
   c.syntax = "git flattr commit [commit]"
   c.description = "Flattr a commit"
   c.action do |args, opts|
-    puts "Not implemented"
+    puts "Not implemented..."
   end
 end
