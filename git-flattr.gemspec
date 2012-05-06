@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib/", __FILE__)
+require "version"
 
 Gem::Specification.new do |s|
   s.name                            = 'git-flattr'
-  s.version                         = '0.0.2'
+  s.version                         = VERSION
   s.authors                         = ['Simon Gate']
   s.email                           = ['simon@smgt.me']
   s.summary                         = %q{Flattr GitHub repositories from the cli}
@@ -13,4 +15,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "flattr"
   s.add_runtime_dependency "launchy"
+  s.add_runtime_dependency "commander"
 end
