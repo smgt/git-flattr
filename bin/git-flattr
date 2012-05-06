@@ -9,6 +9,7 @@ program :name, "git flattr"
 program :description, "Easily flattr GitHub repositories from the CLI"
 program :version, VERSION
 program :help, 'Author', 'Simon Gate <simon@smgt.me>'
+default_command :help
 
 
 
