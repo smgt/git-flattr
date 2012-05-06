@@ -11,10 +11,6 @@ program :version, VERSION
 program :help, 'Author', 'Simon Gate <simon@smgt.me>'
 
 
-options = {
-  :git_dir => "#{Dir.pwd}/.git",
-  :git_config => "#{Dir.pwd}/.git/config"
-}
 
 def error message
   puts "Error: #{message}"
@@ -70,16 +66,22 @@ end
 
 
 command :repo do |c|
+
+  git_opts = {
+    :dir    => "#{Dir.pwd}/.git",
+    :config => "#{Dir.pwd}/.git/config"
+  }
+
   c.syntax = "git flattr repo"
   c.description = "Flattr the repository"
   c.action do |args, options|
     begin
-      unless File.exists?(options[:git_dir])
+      unless File.exists?(git_opts[:dir])
         error "Don't seem to be a git repository"
         exit 1
       end
 
-      unless File.exists?(options[:git_config])
+      unless File.exists?(git_opts[:config])
         error "Git .config file not found"
         exit 1
       end
@@ -92,14 +94,12 @@ command :repo do |c|
       if Git.config('flattr.token') == ""
         begin
           Launchy.open("https://git-flattr.herokuapp.com/")
-          puts "Token: "
-          token = gets
+          token = ask("Token: ")
         rescue Exception => e
           puts e.message
           puts "Seems like you are missing a Flattr access token."
           puts "Browse to http://git-flattr.herokuapp.com and follow the instructions"
-          print "Token: "
-          token = gets
+          token = ask("Token: ")
         end
         if token.nil?
           error "Invalid access token"
@@ -132,6 +132,6 @@ command :commit do |c|
   c.syntax = "git flattr commit [commit]"
   c.description = "Flattr a commit"
   c.action do |args, opts|
-    puts "flattr commit"
+    puts "Not implemented"
   end
 end
