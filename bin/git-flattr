@@ -11,9 +11,6 @@ program :version, VERSION
 program :help, 'Author', 'Simon Gate <simon@smgt.me>'
 default_command :help
 
-
-
-
 def error message
   puts "Error: #{message}"
 end
@@ -153,6 +150,14 @@ command :commit do |c|
   c.syntax = "git flattr commit [commit]"
   c.description = "Flattr a commit"
   c.action do |args, opts|
-    puts "Not implemented..."
+    begin
+      Git.valid?
+
+      if !Auth.is_authed?
+        Auth.do!
+      end
+
+      ARGV.shift
+    end
   end
 end
