@@ -4,6 +4,7 @@ require 'launchy'
 
 def error message
   puts "Error: #{message}"
+  exit 1
 end
 
 class Git
@@ -11,7 +12,12 @@ class Git
     def command cmd, opts = []
       opts = [opts].flatten.map {|s| escape(s) }.join(' ')
       git_cmd = "git #{cmd} #{opts} 2>&1"
-      `#{git_cmd}`.chomp
+      result = `#{git_cmd}`.chomp
+      if $?.to_i == 0
+        return result
+      else
+        return false
+      end
     end
 
     def escape(s)
@@ -30,6 +36,11 @@ class Git
     def current_repo_github?
       origin = config 'remote.origin.url'
       github_repo? origin
+    end
+
+    def commit sha
+      #git log -1 --format=%H 53bebbe
+      command("log", ["-1", "--format=%H", sha])
     end
 
     def github_url
@@ -69,17 +80,14 @@ class Git
 
       unless File.exists?(git_opts[:dir])
         error "Don't seem to be a git repository"
-        exit 1
       end
 
       unless File.exists?(git_opts[:config])
         error "Git .config file not found"
-        exit 1
       end
 
       unless Git.current_repo_github?
         error "Not a GitHub repository"
-        exit 1
       end
     end
   end
@@ -103,7 +111,6 @@ module Auth
       end
       if token.nil?
         error "Invalid access token"
-        exit 1
       end
 
       Git.set_config "flattr.token", token.chomp

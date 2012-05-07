@@ -34,10 +34,8 @@ command :repo do |c|
 
     rescue Flattr::Error::Unauthorized => e
       error e.message
-      exit 1
     rescue Flattr::Error::Forbidden => e
       error e.message
-      exit 1
     end
   end
 end
@@ -54,6 +52,29 @@ command :commit do |c|
       end
 
       ARGV.shift
+
+      commit = ARGV.shift
+      if commit.nil?
+        error "No commit supplied"
+      end
+
+      commit = Git.commit commit
+
+      if !commit
+        error "Commit does not exist in this repository"
+      end
+
+      commit_url = "#{Git.github_url}/commit/#{commit}"
+      flattr = Flattr.new
+      puts commit_url
+      flattr.flattr commit_url
+      thing = flattr.thing_lookup Git.github_url
+      puts "Flattred #{Git.github_url} (#{thing.link})!"
+      exit 0
+    rescue Flattr::Error::Unauthorized => e
+      error e.message
+    rescue Flattr::Error::Forbidden => e
+      error e.message
     end
   end
 end
