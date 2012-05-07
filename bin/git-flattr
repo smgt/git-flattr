@@ -57,3 +57,18 @@ command :commit do |c|
     end
   end
 end
+
+command :info do |c|
+  c.syntax = "git flattr info"
+  c.description = "Information about the current repository"
+  c.action do |args, opts|
+    Git.valid?
+    flattr = Flattr.new
+    thing = flattr.thing_lookup Git.github_url
+    if thing
+      puts "[#{thing.flattrs}] #{thing.title} ( #{thing.url} )"
+    else
+      puts "This GitHub repo is not on Flattr."
+    end
+  end
+end
