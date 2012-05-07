@@ -68,8 +68,8 @@ command :commit do |c|
       flattr = Flattr.new
       puts commit_url
       flattr.flattr commit_url
-      thing = flattr.thing_lookup Git.github_url
-      puts "Flattred #{Git.github_url} (#{thing.link})!"
+      thing = flattr.thing_lookup commit_url
+      puts "Flattred #{commit_url} (#{thing.link})!"
       exit 0
     rescue Flattr::Error::Unauthorized => e
       error e.message
