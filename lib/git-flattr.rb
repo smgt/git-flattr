@@ -96,7 +96,7 @@ end
 module Auth
   class <<self
     def is_authed?
-      Git.config('flattr.token') != ""
+      Git.config('flattr.token')
     end
 
     def do!
