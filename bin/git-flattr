@@ -87,7 +87,7 @@ command :info do |c|
     flattr = Flattr.new
     thing = flattr.thing_lookup Git.github_url
     if thing
-      puts "[#{thing.flattrs}] #{thing.title} ( #{thing.url} )"
+      puts "[#{thing.flattrs}] flattrs, #{thing.title} ( #{thing.url} )"
     else
       puts "This GitHub repo is not on Flattr."
     end
