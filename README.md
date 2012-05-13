@@ -40,6 +40,12 @@ When you are in a directory with a git GitHub repository you can easily flattr a
 
 `git flattr commit [sha1]`
 
+## Want to know more?
+
+If you wan't to know more about the commands check out the help.
+
+`git flattr`
+
 # Copyright
 
 Copyright (c) 2012 Simon Gate. See LICENSE for details.
