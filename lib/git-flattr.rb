@@ -52,14 +52,14 @@ class Git
 
     def github_repo? url
 
-      if url.match %r{^https://[\w-]+@github\.com}
-        match = url.match(%r{^https://[\w-]+@github\.com/([\w-]+)/([\w-.]+)\.git$})
+      if url.match %r{^https://[-\w]+@github\.com}
+        match = url.match(%r{^https://[-\w]+@github\.com/([-\w]+)/([-\.\w]+)\.git$})
       elsif url.match %r{^git@github\.com:}
-        match = url.match(%r{^git@github\.com:([\w-]+)/([\w-.]+)\.git$})
+        match = url.match(%r{^git@github\.com:([-\w]+)/([-\.\w]+)\.git$})
       elsif url.match %r{^git://github\.com/}
-        match = url.match(%r{^git://github\.com/([\w-]+)/([\w-.]+)\.git$})
+        match = url.match(%r{^git://github\.com/([-\w]+)/([-\.\w]+)\.git$})
       elsif url.match %r{^https://github\.com/}
-        match = url.match(%r{^https://github\.com/([\w-]+)/([\w-.]+)\.git$})
+        match = url.match(%r{^https://github\.com/([-\w]+)/([-\.\w]+)\.git$})
       end
 
       if !match.nil?
