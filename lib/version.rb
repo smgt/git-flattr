@@ -1,1 +1,3 @@
-VERSION="0.0.10"
+module GitFlattr
+  VERSION="0.0.11"
+end
