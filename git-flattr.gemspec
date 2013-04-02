@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
   s.test_files                      = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables                     = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
 
-  s.add_runtime_dependency "system_timer"
   s.add_runtime_dependency "flattr"
   s.add_runtime_dependency "launchy"
   s.add_runtime_dependency "commander"
